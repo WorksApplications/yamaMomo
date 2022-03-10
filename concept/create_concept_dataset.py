@@ -10,10 +10,17 @@ import os
 import itertools
 
 
+def load_w2v_model(model_path):
+    if model_path.split(".")[-1] == "txt":
+        model = KeyedVectors.load_word2vec_format(model_path)
+    else:
+        model = KeyedVectors.load(model_path)
+    return model
+
 def load_w2v_models(model_reg):
     models_path = glob.glob(model_reg)
     print("loading...", models_path)
-    return {model_path: KeyedVectors.load(model_path) for model_path in models_path}
+    return {model_path: load_w2v_model(model_path) for model_path in models_path}
 
 
 def load_sudachi_synonym_dataset(sudachi_synonym_path):
@@ -80,8 +87,8 @@ def main():
 
     parser = argparse.ArgumentParser(description='同義語と分散表現modelから未知語を除いたデータセットを作成')  
     parser.add_argument('-s', '--synonym_path', help='path of synonym_dict', default='../data/synonyms.txt')   
-    parser.add_argument('-m', '--model_reg', help='reg of model name', default="../model/*/*.kv")   
-    parser.add_argument('-o', '--output_dir', help='output dir', default="data_eval")
+    parser.add_argument('-m', '--model_reg', help='regular expressions of model path', default="../model/*/*.kv")   
+    parser.add_argument('-o', '--output_dir', help='output directory', default="data_eval")
     args = parser.parse_args()
 
     model_set = load_w2v_models(args.model_reg)

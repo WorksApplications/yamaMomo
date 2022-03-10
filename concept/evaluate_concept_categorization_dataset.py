@@ -12,11 +12,11 @@ import tqdm
 
 def main():
     parser = argparse.ArgumentParser(description='eval with outlier')
-    parser.add_argument('-j', '--json_file', help='dataset of json file', default="data_eval")
+    parser.add_argument('-d', '--data_dir', help='directory containing the created data', default="data_eval")
     args = parser.parse_args()
 
     # ファイルの読み込み（idが文字列）
-    with open(f'{args.json_file}/field.json', 'r') as f:
+    with open(f'{args.data_dir}/field.json', 'r') as f:
         output_dict = json.load(f, object_pairs_hook=OrderedDict)
     
     models_path = output_dict["param"]["model_paths"]

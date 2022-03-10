@@ -10,11 +10,11 @@ import os
 
 def main():
     parser = argparse.ArgumentParser(description='eval with outlier')
-    parser.add_argument('-j', '--json_file', help='dataset of json file', default="data_eval")
+    parser.add_argument('-d', '--data_dir', help='directory containing the created data', default="data_eval")
     args = parser.parse_args()
 
     # ファイルの読み込み（idが文字列）
-    file_list = glob.glob(f'{args.json_file}/*.json')
+    file_list = glob.glob(f'{args.data_dir}/*.json')
     print("evaluate...", file_list)
 
     for file_path in file_list:
