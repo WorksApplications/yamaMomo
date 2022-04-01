@@ -7,6 +7,12 @@ import argparse
 import glob
 import os
 
+def load_w2v_model(model_path):
+    if model_path.split(".")[-1] == "txt":
+        model = KeyedVectors.load_word2vec_format(model_path)
+    else:
+        model = KeyedVectors.load(model_path)
+    return model
 
 def main():
     parser = argparse.ArgumentParser(description='eval with outlier')
@@ -36,7 +42,7 @@ def main():
         else:
             models_path = output_dict["param"]["model_paths"]
             print("loading...", models_path)
-            models = [KeyedVectors.load(model_path) for model_path in models_path]
+            models = [load_w2v_model(model_path) for model_path in models_path]
         
 
         # cos類似度
